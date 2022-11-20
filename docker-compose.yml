@@ -1,0 +1,9 @@
+version: '3.4'
+services:
+  musician:
+    container_name: musical
+    volumes:
+      - ./src/:/app/src
+    build: .
+    ports:
+      - 3000:3000
