@@ -12,11 +12,12 @@ const Playlist = () => {
       if(userLocation!==""){
         const data=await axios("https://shazam-core.p.rapidapi.com/v1/charts/country",{
         headers: {
-          'X-RapidAPI-Key': '5cd532aaa3msh88a40c991cb9ea2p13bec8jsn7a9500b50cdb',
-          'X-RapidAPI-Host': 'shazam-core.p.rapidapi.com'
+          'X-RapidAPI-Key': process.env.REACT_APP_RapidAPI_Key,
+          'X-RapidAPI-Host':process.env.REACT_APP_RapidAPI_Host
         },
         params: {country_code: userLocation}
       });
+      console.log(data);
       setSongData(data.data)
       }
     }
@@ -29,7 +30,7 @@ const Playlist = () => {
           <div className='flex flex-col gap-6 lg:w-full overflow-hidden'>
             <b className='text-white'>Discover</b>
             <ul className='flex gap-8 lg:grid grid-cols-3 lg:gap-12 lg:w-full xl:grid-cols-4 w-full overflow-auto justify-items-start scrollbar-hide pb-12'>
-              {songData.map((data,index)=><li><SongCard song={data} index={index}/></li>)}
+              {songData.map((data,index)=><li key={index}><SongCard song={data} index={index}/></li>)}
             </ul>
           </div>
         </div>

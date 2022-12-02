@@ -24,7 +24,7 @@ const VolumeController = () => {
     }
     return (
         <>
-        <div className="text-white flex gap-4 items-center">
+        <div className="text-white hidden lg:flex gap-4 items-center">
             {volume==0?<BsFillVolumeMuteFill/>:volume<=35?<BsFillVolumeDownFill/>:volume<=85?<IoVolumeMedium/>:<BsFillVolumeUpFill/>}
             <div className='w-12 sm:w-36 flex items-center'>
             <Slider

@@ -16,6 +16,7 @@ const Player = () => {
     const isPlaying=useSelector(state=>state.aulterPlayMusic);
     const [songData,setsongData]=useState(initalState);
     const dispatch=useDispatch();
+    const songDetails=useSelector(state=>state.selectedDetails)
     const play=()=>{
         dispatch({type:"ALTERPLAY"})
     }
@@ -48,10 +49,10 @@ const Player = () => {
         else ref_audio.current.pause();
     }, [isPlaying])
     return (
-        <div className='flex item-center z-10 000000 backdrop-blur-2xl w-screen h-20 rounded-t-xl px-2 md:px-12 justify-between gap-2 md:gap-0'>
+        <div className='flex item-center justify-center z-10 000000 backdrop-blur-2xl w-screen h-20 rounded-t-xl px-2 md:px-6 md:justify-between gap-2 md:gap-0'>
             <audio src={data.songUrl} autoPlay={isPlaying} ref={ref_audio} onTimeUpdate={e=>currentTime(e)} onCanPlay={e=>newPlay(e)}></audio>
-            <Playing imgUrl={data.songImgUrl} songTitle={data.trackName} singer={data.singerName}/>
-            <div className='flex flex-col items-center justify-end w-fit'>
+            <Playing imgUrl={data.songimgUrl} songTitle={data.trackName} singer={data.singerData}/>
+            <div className='flex flex-col items-center justify-center w-fit'>
             <PlayerControler play={play}/>
             <PlayTimer songData={songData}/>
             </div>

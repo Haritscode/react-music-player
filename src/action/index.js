@@ -27,3 +27,9 @@ export const useLocation=()=>{
         payload:
     }
 }
+export const topArtists=()=>{
+    return {
+        type:"TOPARTISTS",
+        payload:[]
+    }
+}

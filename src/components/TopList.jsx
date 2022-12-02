@@ -1,11 +1,13 @@
 import React,{useState,useEffect} from 'react';
 import TopSong from './TopSong';
 import axios from 'axios';
-import { useDispatch} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
+import { SatelliteAlt } from '@mui/icons-material';
 const TopList = () => {
-    const dispatch=useDispatch();
     const [List, setList] = useState([])
     const [playingSongIndex,setPlayingsongIndex]=useState("");
+    const dispatch=useDispatch();
+    const playingSong=useSelector(state=>state.playsong)
     const showmoreList=()=>{
         let dataItems=List.concat(initialState);
         setList(dataItems);
@@ -13,8 +15,8 @@ const TopList = () => {
     const ListData=async()=>{
         const listdata=await axios(`https://shazam-core.p.rapidapi.com/v1/charts/world`,{
             headers:{
-                'X-RapidAPI-Key':'5cd532aaa3msh88a40c991cb9ea2p13bec8jsn7a9500b50cdb',
-                'X-RapidAPI-Host':'shazam-core.p.rapidapi.com'
+                'X-RapidAPI-Key':process.env.REACT_APP_RapidAPI_Key,
+                'X-RapidAPI-Host':process.env.REACT_APP_RapidAPI_Host
             },
         })
         setList(listdata.data)
@@ -25,19 +27,31 @@ const TopList = () => {
     useEffect(() => {
         if(playingSongIndex!=="")
         {
-            let artistNames=[];
-            List[playingSongIndex-1].artists.map(({alias})=>{
-                artistNames.push(alias)
+            let artistData=[];
+            List[playingSongIndex-1].artists.map(({alias,adamid})=>{
+                artistData.push({name:alias,id:adamid})
             });
             dispatch({type:"PLAYSONG",payload:{
                 trackName:List[playingSongIndex-1].title,
                 songUrl:List[playingSongIndex-1].hub.actions[1].uri,
                 songimgUrl:List[playingSongIndex-1].share.image,
                 index:playingSongIndex,
-                singerName:artistNames
+                singerData:artistData
             }})
         }
     }, [playingSongIndex]);
+    useEffect(()=>{
+        if(List.length>0)
+        {
+            let data=new Set([]);
+            List?.map(({artists})=>{
+            artists?.map(({alias,adamid})=>{
+                data.add({artistId:adamid,artistName:alias});
+            })
+        })
+        dispatch({type:"TOPARTISTS",payload:[...data]})
+        }
+        },[List])
     return (
         <div className='hidden lg:flex flex-col gap-8 overflow-auto h-full'>
             <div className='flex justify-between'>
@@ -47,7 +61,7 @@ const TopList = () => {
             <ol className='flex flex-col gap-4 overflow-auto scrollbar-hide h-full'>
                 {List.map((data,index=-1)=>{
                     index=index+1;
-                return <li><TopSong data={data} index={index} setPlayingsongIndex={setPlayingsongIndex}/></li>
+                return <li key={index}><TopSong data={data} index={index} setPlayingsongIndex={setPlayingsongIndex}/></li>
                 })}
             </ol>
         </div>

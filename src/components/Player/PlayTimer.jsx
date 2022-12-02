@@ -21,8 +21,8 @@ const PlayTimer = ({ songData }) => {
   return (
     <>
       <div className='w-fit flex gap-4 items-center text-white   '>
-        <div className='text-xs'>{songData.currentTime}</div>
-        <div className='w-96 p-0 flex items-center'>
+        <div className='text-xs hidden md:block'>{songData.currentTime}</div>
+        <div className='w-screen px-4 md:px-0 md:w-96 p-0 flex items-center'>
           <ThemeProvider theme={theme}>
             <Slider
               valueLabelDisplay="off"
@@ -33,7 +33,7 @@ const PlayTimer = ({ songData }) => {
             />
           </ThemeProvider>
         </div>
-        <div className='text-xs'>{songData.trackLength}</div>
+        <div className='text-xs hidden md:block'>{songData.trackLength}</div>
       </div>
     </>
   );

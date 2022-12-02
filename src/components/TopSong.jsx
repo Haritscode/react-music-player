@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
-import { useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 export default function TopSong({data,setPlayingsongIndex,index}) {
     const [isthisPlaying,setisthisPlaying]=useState(false);
     const playingSongId=useSelector(state=>state.playsong);
@@ -18,7 +18,6 @@ export default function TopSong({data,setPlayingsongIndex,index}) {
             setisthisPlaying(false);
         }
     }, [playingSongId.index]);
-    console.log(data);
   return (
     <>
     <div className='flex flex-row items-center gap-4 w-full'>
@@ -26,16 +25,16 @@ export default function TopSong({data,setPlayingsongIndex,index}) {
         <div className='flex gap-3 items-center'>
             <img src={data.share.image} alt="none" className='w-16 h-16 rounded-md'/>
             <div className='flex flex-col'>
-                <b className='text-xs w-4/5 '>{data.title}</b>
+                <b className='text-xs'>{data.title.split("(")[0]}</b>
                 <ul className='flex gap-1'>
                     {data?.artists?.map(({alias},count)=>{
                         if(count!=data.artists.length-1)
                         {
-                            return <li className='font-extralight text-xs'>{alias}  .</li>
+                            return <li key={count} className='font-extralight text-xs'>{alias}  .</li>
                         }
                         else
                         {
-                            return <li className='font-extralight text-xs'>{alias}</li>
+                            return <li key={count} className='font-extralight text-xs'>{alias}</li>
                         }
                     })} 
                 </ul>

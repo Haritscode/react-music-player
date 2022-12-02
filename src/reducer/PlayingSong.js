@@ -2,16 +2,16 @@ const initalState={
     trackName:"",
     songUrl:"",
     type:"single",
-    songImgUrl:"",
+    songimgUrl:"",
     index:0,
-    singerName:[]
+    singerData:[]
 
 }
-const playsong=(state=initalState,action,payloac)=>{
+const playsong=(state=initalState,action,payload)=>{
     switch(action.type)
     {
         case "PLAYSONG":
-            return {...state,trackName:action.payload.trackName,songUrl:action.payload.songUrl,songImgUrl:action.payload.songimgUrl,index:action.payload.index,singerName:action.payload.singerName}
+            return {...state,trackName:action.payload.trackName,songUrl:action.payload.songUrl,songimgUrl:action.payload.songimgUrl,index:action.payload.index,singerData:action.payload.singerData}
         default:
             return state;
     }
