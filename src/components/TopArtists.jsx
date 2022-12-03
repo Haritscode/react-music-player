@@ -16,7 +16,10 @@ const TopArtists = () => {
             }
             setArtist(artistData);
         }
-    },[topArtists])
+    },[topArtists,showArtist])
+    const moreArtists=()=>{
+        setShowArtist(prev=>prev+4)
+    }
     return (
         <>
             <div className='flex flex-col gap-6'>
