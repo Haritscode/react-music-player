@@ -5,12 +5,13 @@ import { useDispatch, useSelector} from 'react-redux';
 import { SatelliteAlt } from '@mui/icons-material';
 const TopList = () => {
     const [List, setList] = useState([])
+    const [showList,setshowList]=useState([]);
+    const [Count,setCount]=useState(10);
     const [playingSongIndex,setPlayingsongIndex]=useState("");
     const dispatch=useDispatch();
     const playingSong=useSelector(state=>state.playsong)
     const showmoreList=()=>{
-        let dataItems=List.concat(initialState);
-        setList(dataItems);
+        setCount(prevCount=>prevCount+6);
     }
     const ListData=async()=>{
         const listdata=await axios(`https://shazam-core.p.rapidapi.com/v1/charts/world`,{
@@ -22,8 +23,22 @@ const TopList = () => {
         setList(listdata.data)
     }
     useEffect(()=>{
+        const Data=[];
+        if(List!==[])
+        {
+            List?.map((value,count)=>{
+                if(count<Count){
+                    Data.push(value);
+                }
+            })
+            setshowList(Data);
+        }
+
+    },[List,Count])
+    useEffect(()=>{
         ListData();
     },[])
+    console.log(List);
     useEffect(() => {
         if(playingSongIndex!=="")
         {
@@ -59,7 +74,7 @@ const TopList = () => {
                 <button className='text-xs text-slate-300' onClick={()=>showmoreList()}>See more</button>
             </div>
             <ol className='flex flex-col gap-4 overflow-auto scrollbar-hide h-full'>
-                {List.map((data,index=-1)=>{
+                {showList.map((data,index=-1)=>{
                     index=index+1;
                 return <li key={index}><TopSong data={data} index={index} setPlayingsongIndex={setPlayingsongIndex}/></li>
                 })}
