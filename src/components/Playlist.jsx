@@ -17,7 +17,6 @@ const Playlist = () => {
         },
         params: {country_code: userLocation}
       });
-      console.log(data);
       setSongData(data.data)
       }
     }
@@ -37,5 +36,4 @@ const Playlist = () => {
         </>
     );
 }
-
 export default Playlist;
